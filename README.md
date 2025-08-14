@@ -1,4 +1,4 @@
-# LINK DA API DE XEMPLO: https://jsonplaceholder.typicode.com/users
+# LINK DA API DE EXEMPLO: https://jsonplaceholder.typicode.com/users
 
 
 # Getting Started with Create React App
