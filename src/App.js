@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./styles.css";
 
-function App() {
+/* Oque deve ser feito:
+Passe dados reais dessa API url:""
+Substitua os dados estáticos de exemplo consumindo a API.
+Pode usar axios
+15 min ( apartir da etapa 3)
+*/
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <>
+      <header className="site-header">
+        <div className="container">
+          <h1>Catálogo de Usuários</h1>
+          <p className="subtitle">
+            Estrutura pronta. Depois, substitua o conteúdo de <code>#grid</code>{" "}
+            com dados da API.
+          </p>
+        </div>
       </header>
-    </div>
+
+      <main className="container">
+        {/* Grade onde você vai mapear os usuários futuramente */}
+        <section id="grid" className="grid" aria-label="Lista de usuários">
+          {/* CARD ESTÁTICO DE EXEMPLO */}
+          <article className="card">
+            <div className="avatar">JD</div>
+            <div className="info">
+              <div className="name">
+                John Doe <span className="meta">@johndoe</span>
+              </div>
+              <div className="meta">john.doe@acme.com</div>
+              <div className="badge-row">
+                <span className="badge">🏢 ACME Corp</span>
+                <span className="badge">📍 Springfield</span>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        {/* Paginação opcional — deixe vazio por enquanto */}
+        <nav id="pagination" className="pagination" aria-label="Paginação" />
+      </main>
+    </>
   );
 }
-
-export default App;
