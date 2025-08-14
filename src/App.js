@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState, UseEffect, useEffect } from "react";
 import "./styles.css";
 
 /* Oque deve ser feito:
@@ -9,6 +9,24 @@ Pode usar axios
 */
 
 export default function App() {
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    function loadApi() {
+      // fiz uma func para carregar a URL
+      let url = "https://jsonplaceholder.typicode.com/users"; // passei a url para uma variavel
+      fetch(url) //requisição aqui abaixo dele é uma promisse ( como try\catch)
+        .then((r) => r.json()) //caso de sucesso / r é representado por resultado com função anonima / / transforma o r em um json
+        .then((json) => {
+          // jogo pra dentro de um array
+          console.log(json);
+          setUser(json);
+        });
+    }
+
+    loadApi();
+  }, []);
+
   return (
     <>
       <header className="site-header">
@@ -38,6 +56,25 @@ export default function App() {
               </div>
             </div>
           </article>
+          {user.map((item) => {
+            return (
+              <article key={item.id} className="card">
+                <div className="avatar">JD</div>
+                <div className="info">
+                  <div className="name">
+                    <span className="name">{item.name}</span>
+                    <br />
+                    <span className="meta">@ {item.username}</span>
+                  </div>
+                  <div className="meta">E-mail: {item.email}</div>
+                  <div className="badge-row">
+                    <span className="badge">🏢 {item.address.street}</span>
+                    <span className="badge">📍 {item.address.city}</span>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </section>
 
         {/* Paginação opcional — deixe vazio por enquanto */}
