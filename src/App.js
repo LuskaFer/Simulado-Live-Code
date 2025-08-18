@@ -1,4 +1,4 @@
-import { React, useState, UseEffect, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import "./styles.css";
 
 /* Oque deve ser feito:
@@ -11,20 +11,38 @@ Pode usar axios
 export default function App() {
   const [user, setUser] = useState([]);
 
+  // Hook useEffect: usado para executar efeitos colaterais (side effects) no React,
+  // como chamadas de API, manipulação de eventos ou interações com o DOM.
+  // O segundo argumento "[]" significa que o efeito só será executado UMA vez
+  // após a montagem inicial do componente (comportamento similar ao componentDidMount).
   useEffect(() => {
-    function loadApi() {
-      // fiz uma func para carregar a URL
-      let url = "https://jsonplaceholder.typicode.com/users"; // passei a url para uma variavel
-      fetch(url) //requisição aqui abaixo dele é uma promisse ( como try\catch)
-        .then((r) => r.json()) //caso de sucesso / r é representado por resultado com função anonima / / transforma o r em um json
-        .then((json) => {
-          // jogo pra dentro de um array
-          console.log(json);
-          setUser(json);
-        });
-    }
+    // Declaramos uma função assíncrona (async) para podermos usar "await"
+    // dentro dela, deixando o código mais legível que promessas encadeadas (.then()).
+    const loadApi = async () => {
+      try {
+        // Faz a requisição HTTP para a API Random User
+        // "await" pausa a execução dessa função até a resposta ser recebida.
+        const res = await fetch("https://randomuser.me/api/?results=500");
 
+        // Converte a resposta da API para JSON.
+        // "await" é usado de novo, porque o método .json() também retorna uma Promise.
+        const data = await res.json();
+
+        // Atualiza o estado "user" com os dados retornados pela API.
+        // Aqui, "data.results" contém o array de usuários vindos da API.
+        setUser(data.results);
+      } catch (err) {
+        // Caso aconteça algum erro na requisição ou conversão de dados,
+        // ele será capturado aqui no bloco "catch" e exibido no console.
+        console.error("Erro na API:", err);
+      }
+    };
+
+    // Chamamos a função loadApi para executar a requisição.
     loadApi();
+
+    // Array de dependências vazio []: garante que o useEffect seja executado apenas
+    // uma vez quando o componente for montado.
   }, []);
 
   return (
@@ -42,43 +60,44 @@ export default function App() {
       <main className="container">
         {/* Grade onde você vai mapear os usuários futuramente */}
         <section id="grid" className="grid" aria-label="Lista de usuários">
-          {/* CARD ESTÁTICO DE EXEMPLO */}
-          <article className="card">
-            <div className="avatar">JD</div>
-            <div className="info">
-              <div className="name">
-                John Doe <span className="meta">@johndoe</span>
-              </div>
-              <div className="meta">john.doe@acme.com</div>
-              <div className="badge-row">
-                <span className="badge">🏢 ACME Corp</span>
-                <span className="badge">📍 Springfield</span>
-              </div>
-            </div>
-          </article>
-          {user.map((item) => {
+          {user.map((item, index) => {
             return (
-              <article key={item.id} className="card">
-                <div className="avatar">JD</div>
+              // Card com grid de 2 colunas: avatar (64px) + info (1fr)
+              <article key={index} className="card">
+                {/* Coluna 1: avatar */}
+                <div className="avatar">
+                  <img src={item.picture.large} alt={item.name.first} />
+                </div>
+
+                {/* Coluna 2: nome + badges (rua/cidade) */}
                 <div className="info">
+                  {/* Nome */}
                   <div className="name">
-                    <span className="name">{item.name}</span>
-                    <br />
-                    <span className="meta">@ {item.username}</span>
+                    {item.name.first} {item.name.last}
                   </div>
-                  <div className="meta">E-mail: {item.email}</div>
+
+                  {/* Badges */}
                   <div className="badge-row">
-                    <span className="badge">🏢 {item.address.street}</span>
-                    <span className="badge">📍 {item.address.city}</span>
+                    <span className="badge">
+                      🏢 {item.location.street.name}
+                    </span>
+                    <span className="badge">📍 {item.location.city}</span>
                   </div>
+                </div>
+
+                {/* E-mail FORA da .info para pegar as 2 colunas */}
+                <div className="email">
+                  <strong>E-mail:</strong>
+                  <br />
+                  {item.email}
                 </div>
               </article>
             );
           })}
         </section>
 
-        {/* Paginação opcional — deixe vazio por enquanto */}
-        <nav id="pagination" className="pagination" aria-label="Paginação" />
+        {/* Paginação opcional — deixe vazio por enquanto
+        <nav id="pagination" className="pagination" aria-label="Paginação" /> */}
       </main>
     </>
   );

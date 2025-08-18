@@ -26,22 +26,35 @@ h1{ margin:0; font-size:clamp(1.4rem,2vw + 1rem,2rem); letter-spacing:-.02em; }
   gap:16px;
 }
 .card{
-  display:grid; grid-template-columns:64px 1fr; gap:14px;
+  display:grid;
+  grid-template-columns:64px 1fr; /* avatar + conteúdo */
+  gap:14px;
+  align-items:start;             /* tudo começa alinhado ao topo */
   padding:14px; background:var(--bg-card);
   border:1px solid var(--border); border-radius:var(--radius);
   box-shadow:var(--shadow);
   transition:transform .08s ease, box-shadow .2s ease, border-color .2s ease;
 }
 .card:hover{ transform:translateY(-2px); border-color:#cbd5e1; box-shadow:0 12px 30px rgba(2,6,23,.09); }
+
 .avatar{
   width:64px; height:64px; border-radius:12px;
   background:linear-gradient(135deg,#eff6ff,#dbeafe);
   border:1px solid #c7dcff;
   display:grid; place-items:center; font-weight:700; color:#1d4ed8;
 }
+.avatar img{
+  width:60px;       /* tamanho do retrato */
+  height:60px;
+  border-radius:50%;
+  object-fit:cover;
+  margin-right:10px;
+}
+
 .info{ display:grid; gap:6px; }
-.name{ font-weight:700; letter-spacing:-.01em; }
+.name{ font-weight:700; letter-spacing:-.01em; line-height:1.1; }
 .meta{ color:var(--muted); font-size:.925rem; }
+
 .badge-row{ display:flex; gap:6px; flex-wrap:wrap; margin-top:4px; }
 .badge{
   display:inline-flex; align-items:center; gap:6px;
@@ -50,7 +63,23 @@ h1{ margin:0; font-size:clamp(1.4rem,2vw + 1rem,2rem); letter-spacing:-.02em; }
   font-size:.8rem;
 }
 
-/* ===== Pagination (você preenche depois) ===== */
+/* ===== E-mail ocupa as 2 colunas do card ===== */
+.email{
+  grid-column: 1 / -1;          /* pega da 1ª até a última coluna */
+  margin-top:6px;
+  padding-top:6px;
+  border-top:1px solid var(--border); /* separador sutil */
+  font-size:.925rem;
+  color:var(--muted);
+  word-wrap:break-word;
+  overflow-wrap:anywhere;
+  white-space:normal;
+  line-height:1.35;
+}
+.email a{ color:inherit; text-decoration:none; }
+.email a:hover{ text-decoration:underline; }
+
+/* ===== Pagination ===== */
 .pagination{
   margin:14px 0 28px;
   display:flex; gap:6px; flex-wrap:wrap; justify-content:center;
@@ -65,4 +94,14 @@ h1{ margin:0; font-size:clamp(1.4rem,2vw + 1rem,2rem); letter-spacing:-.02em; }
 /* ===== Responsivo ===== */
 @media (max-width:700px){
   .grid{ grid-template-columns:1fr; }
+  .card{ grid-template-columns:48px 1fr; }
+  .avatar{ width:48px; height:48px; }
+  .avatar img{ width:44px; height:44px; }
+}
+
+/* ===== Quebras seguras para textos longos ===== */
+.meta, .badge{
+  word-wrap:break-word;
+  overflow-wrap:anywhere;
+  white-space:normal;
 }
