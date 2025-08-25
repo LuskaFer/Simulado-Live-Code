@@ -43,7 +43,7 @@ export default function App() {
         {/* Grade onde você vai mapear os usuários futuramente */}
         <section id="grid" className="grid" aria-label="Lista de usuários">
           {/* CARD ESTÁTICO DE EXEMPLO */}
-          <article className="card">
+          {/* <article className="card">
             <div className="avatar">JD</div>
             <div className="info">
               <div className="name">
@@ -55,7 +55,7 @@ export default function App() {
                 <span className="badge">📍 Springfield</span>
               </div>
             </div>
-          </article>
+          </article> */}
           {user.map((item) => {
             return (
               <article key={item.id} className="card">
